@@ -18,9 +18,17 @@ type Cmd struct {
 func readCmd() *Cmd {
 	cmd:=new(Cmd)
 	flag.BoolVar(&cmd.helpFlag,"help",false,"print help message")
+	flag.BoolVar(&cmd.versionFlag,"version",false,"print version message")
+	flag.StringVar(&cmd.classpath,"cp","","classpath")
+	flag.Parse()
+	args:=flag.Args()
+	if len(args)>0{
+		cmd.mainClass=args[0]
+		cmd.args=args[1:]
+	}
 	return cmd
 }
 
 func printUsage(){
-	fmt.Println("Usage: %s [-options] class [args...]",os.Args[0])
+	fmt.Printf("Usage: %s [-options] class [args...]",os.Args[0])
 }
