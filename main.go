@@ -1,8 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"jvmgo/classpath"
+	"os"
+)
 
-const DEFAUL_CLASS_PATH  = ""
+const JAVA_HOME  = "JAVA_HOME"
+
+const CLASS_PATH  = "CLASS_PATH"
 
 func main()  {
 	cmd:=readCmd()
@@ -20,8 +26,11 @@ func main()  {
 		fmt.Println("Please input main class")
 		return
 	}
-	if(cmd.classpath==""){
-		cmd.classpath=DEFAUL_CLASS_PATH
+	if cmd.classpath==""{
+		cmd.classpath=os.Getenv(CLASS_PATH)
+	}
+	if cmd.jrePath==""{
+		cmd.jrePath=os.Getenv(JAVA_HOME+"/jre")
 	}
 	startJVM(cmd)
 }
@@ -29,4 +38,6 @@ func main()  {
 func startJVM(cmd *Cmd)  {
 	fmt.Println("start jvm")
 	fmt.Println(cmd.mainClass+" "+cmd.classpath)
+	classpath.Parse(cmd.jrePath,cmd.classpath)
 }
+
