@@ -13,8 +13,10 @@ type DirEntry struct {
 
 func (this DirEntry) readClass(path string) (clazz []byte,entry Entry,err error) {
 	if  !strings.Contains(path,this.absPath){
-		return nil, nil, nil;
+		println(this.absPath+" "+path)
+		return nil, nil, nil
 	}
+	println(this.absPath)
 	clazz,err=ioutil.ReadFile(path)
 	return clazz, this, err
 }

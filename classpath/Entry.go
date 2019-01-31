@@ -17,9 +17,17 @@ func newEntry(path string) Entry {
 	if strings.Contains(path, PATH_LIST_SPLITER){
 		return newCompositeEntry(path)
 	}
-	if strings.HasSuffix(path,".zip") ||
-		strings.HasSuffix(path,".jar"){
+	if isZip(path){
 		return newZipEntry(path)
 	}
+	if strings.HasSuffix(path,"*"){
+		return newWildcardEntry(path)
+	}
 	return newDirEntry(path)
+}
+
+//判断路径是否为zip
+func isZip(path string) bool  {
+	return strings.HasSuffix(path,".zip") ||
+		strings.HasSuffix(path,".jar")
 }
