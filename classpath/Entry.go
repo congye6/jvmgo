@@ -8,26 +8,27 @@ import (
 
 const PATH_LIST_SPLITER = string(os.PathListSeparator)
 
+// 管理某个路径下的class文件
 type Entry interface {
-	readClass(path string) (clazz []byte,entry Entry,err error)
+	readClass(path string) (clazz []byte, entry Entry, err error)
 }
 
 func newEntry(path string) Entry {
-	fmt.Println(path)
-	if strings.Contains(path, PATH_LIST_SPLITER){
+	fmt.Printf("【DEBUG】new entry path:%s \n", path)
+	if strings.Contains(path, PATH_LIST_SPLITER) {
 		return newCompositeEntry(path)
 	}
-	if isZip(path){
+	if isZip(path) {
 		return newZipEntry(path)
 	}
-	if strings.HasSuffix(path,"*"){
+	if strings.HasSuffix(path, "*") {
 		return newWildcardEntry(path)
 	}
 	return newDirEntry(path)
 }
 
 //判断路径是否为zip
-func isZip(path string) bool  {
-	return strings.HasSuffix(path,".zip") ||
-		strings.HasSuffix(path,".jar")
+func isZip(path string) bool {
+	return strings.HasSuffix(path, ".zip") ||
+		strings.HasSuffix(path, ".jar")
 }

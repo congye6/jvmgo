@@ -18,10 +18,11 @@ type Classpath struct {
 	application Entry
 }
 
+// 初始化加载class文件的entry对象
 func Parse (jrePath string,applicationPath string) *Classpath {
-	application:=newEntry(applicationPath)
-	bootstrap:=newEntry(jrePath+BOOTSTRAP_PATH)
-	ext:=newEntry(jrePath+EXT_PATH)
+	application:=newEntry(applicationPath) // 应用类加载器
+	bootstrap:=newEntry(jrePath+BOOTSTRAP_PATH) // 启动类加载器
+	ext:=newEntry(jrePath+EXT_PATH) // 扩展类加载器
 	return &Classpath{bootstrap,ext,application}
 }
 
