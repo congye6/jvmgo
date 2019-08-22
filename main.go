@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"jvmgo/classfile"
 	"jvmgo/classpath"
 	"os"
 )
@@ -40,7 +41,9 @@ func startJVM(cmd *Cmd) {
 	fmt.Printf("【DEBUG】main class:%s \n, classpath:%s \n", cmd.mainClass, cmd.classpath)
 	classpathService := classpath.Parse(cmd.jrePath, cmd.classpath) // classpath就是应用类加载器的路径
 	data, _ := classpathService.ReadClass(cmd.mainClass)
-	fmt.Printf("【DEBUG】read data:%s \n", string(data))
+
+	classFile := classfile.NewClassFile(data)
+	classFile.Init()
 }
 
 //./jvmgo -cp /Users/zhoucong/workspace/practice/out/production/practice /Users/zhoucong/workspace/practice/out/production/practice/Solution.class
