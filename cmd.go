@@ -19,7 +19,7 @@ type Cmd struct {
 func readCmd() *Cmd {
 	cmd:=new(Cmd)
 	flag.BoolVar(&cmd.helpFlag,"help",false,"print help message")
-	flag.BoolVar(&cmd.versionFlag,"version",false,"print version message")
+	flag.BoolVar(&cmd.versionFlag,"version",  false,"print version message")
 	flag.StringVar(&cmd.classpath,"cp","","classpath")
 	flag.StringVar(&cmd.jrePath,"jre","","jre path")
 	flag.Parse()
