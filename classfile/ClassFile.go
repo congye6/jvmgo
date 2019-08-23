@@ -30,7 +30,7 @@ func (this *ClassFile) readAndCheckMagic() {
 		return
 	}
 
-	magic := this.classReader.readUint32()
+	magic := this.classReader.ReadUint32()
 	if magic != 0xCAFEBABE {
 		fmt.Printf("error magic:%d \n", magic)
 		panic("java.lang.ClassFormatError,magic!")
@@ -38,7 +38,7 @@ func (this *ClassFile) readAndCheckMagic() {
 }
 
 func (this *ClassFile) readAndCheckVersion() {
-	this.minorVersion = this.classReader.readUint16()
-	this.majorVersion = this.classReader.readUint16()
+	this.minorVersion = this.classReader.ReadUint16()
+	this.majorVersion = this.classReader.ReadUint16()
 	fmt.Printf("reading version, minor:%d, major:%d \n", this.minorVersion, this.majorVersion)
 }
