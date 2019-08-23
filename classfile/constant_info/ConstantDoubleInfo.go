@@ -1,7 +1,7 @@
 package constant_info
 
 import (
-	"jvmgo/classfile"
+	"jvmgo/classfile/reader"
 	"math"
 )
 
@@ -9,6 +9,6 @@ type ConstantDoubleInfo struct {
 	val float64
 }
 
-func (this *ConstantDoubleInfo) readInfo(reader *classfile.ClassReader) {
+func (this *ConstantDoubleInfo) readInfo(reader *reader.ClassReader) {
 	this.val = math.Float64frombits(reader.ReadUint64())
 }

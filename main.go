@@ -44,6 +44,8 @@ func startJVM(cmd *Cmd) {
 
 	classFile := classfile.NewClassFile(data)
 	classFile.Init()
+	fmt.Printf("【DEBUG】class name:%s\n", classFile.GetClassName())
+	fmt.Printf("【DEBUG】super class name:%s\n", classFile.GetSuperClassName())
 }
 
 //./jvmgo -cp /Users/zhoucong/workspace/practice/out/production/practice /Users/zhoucong/workspace/practice/out/production/practice/Solution.class

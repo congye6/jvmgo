@@ -1,20 +1,29 @@
 package classfile
 
-import "fmt"
+import (
+	"fmt"
+	"jvmgo/classfile/constant_info"
+	"jvmgo/classfile/reader"
+)
 
 // class文件属性
 type ClassFile struct {
-	classReader *ClassReader
+	classReader *reader.ClassReader
 
 	// magic uint32
-	minorVersion uint16
+	minorVersion uint16 //版本号
 	majorVersion uint16
+	constantPool *constant_info.ConstantPool
+	accessFlags  uint16 //访问标志
+	thisClass    uint16 //类名的索引
+	superClass   uint16 //超类索引
+	interfaces   []uint16
 	// TODO
 }
 
 func NewClassFile(data []byte) *ClassFile {
 	return &ClassFile{
-		classReader: &ClassReader{data:data},
+		classReader: &reader.ClassReader{Data: data},
 	}
 }
 
@@ -22,6 +31,20 @@ func NewClassFile(data []byte) *ClassFile {
 func (this *ClassFile) Init() {
 	this.readAndCheckMagic()
 	this.readAndCheckVersion()
+	this.constantPool = constant_info.NewConstantPool(this.classReader)
+	this.constantPool.Init()
+	this.accessFlags = this.classReader.ReadUint16()
+	this.thisClass = this.classReader.ReadUint16()
+	this.superClass = this.classReader.ReadUint16()
+	this.interfaces = this.classReader.ReadUint16s()
+}
+
+func (this *ClassFile) GetClassName() string {
+	return this.constantPool.GetClassName(this.thisClass)
+}
+
+func (this *ClassFile) GetSuperClassName() string {
+	return this.constantPool.GetClassName(this.superClass)
 }
 
 func (this *ClassFile) readAndCheckMagic() {

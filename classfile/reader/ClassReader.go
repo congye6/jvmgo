@@ -1,33 +1,33 @@
-package classfile
+package reader
 
 import "encoding/binary"
 
 // 封装class文件字节流的操作
 type ClassReader struct {
-	data []byte
+	Data []byte
 }
 
 func (this *ClassReader) ReadUint8() uint8 {
-	val := this.data[0]
-	this.data = this.data[1:]
+	val := this.Data[0]
+	this.Data = this.Data[1:]
 	return val
 }
 
 func (this *ClassReader) ReadUint16() uint16 {
-	val := binary.BigEndian.Uint16(this.data)
-	this.data = this.data[2:]
+	val := binary.BigEndian.Uint16(this.Data)
+	this.Data = this.Data[2:]
 	return val
 }
 
 func (this *ClassReader) ReadUint32() uint32 {
-	val := binary.BigEndian.Uint32(this.data)
-	this.data = this.data[4:]
+	val := binary.BigEndian.Uint32(this.Data)
+	this.Data = this.Data[4:]
 	return val
 }
 
 func (this *ClassReader) ReadUint64() uint64 {
-	val := binary.BigEndian.Uint64(this.data)
-	this.data = this.data[8:]
+	val := binary.BigEndian.Uint64(this.Data)
+	this.Data = this.Data[8:]
 	return val
 }
 
@@ -42,7 +42,7 @@ func (this *ClassReader) ReadUint16s() []uint16 {
 }
 
 func (this *ClassReader) ReadBytes(n uint32) []byte {
-	bytes := this.data[:n]
-	this.data = this.data[n:]
+	bytes := this.Data[:n]
+	this.Data = this.Data[n:]
 	return bytes
 }

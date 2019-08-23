@@ -1,15 +1,15 @@
 package constant_info
 
 import (
-	"jvmgo/classfile"
+	"jvmgo/classfile/reader"
 )
 
 type ConstantPool struct {
-	reader    *classfile.ClassReader
+	reader    *reader.ClassReader
 	constants []ConstantInfo
 }
 
-func NewConstantPool(reader *classfile.ClassReader) *ConstantPool {
+func NewConstantPool(reader *reader.ClassReader) *ConstantPool {
 	return &ConstantPool{
 		reader: reader,
 	}
@@ -22,8 +22,8 @@ func (this *ConstantPool) Init() {
 	constantFactory := ConstantInfoFactory{}
 	for i := 1; i < constantLength; i++ { //从1开始，0为无效值
 		tag := this.reader.ReadUint8()
-		constantInfo := constantFactory.newConstantInfo(tag, this) // 创建info对象
-		constantInfo.readInfo(this.reader)                         // 解析具体数据
+		constantInfo := constantFactory.newConstantInfo(tag) // 创建info对象
+		constantInfo.readInfo(this.reader)                   // 解析具体数据
 
 		this.constants[i] = constantInfo // 添加到pool中
 

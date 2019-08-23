@@ -1,9 +1,11 @@
 package constant_info
 
-import "jvmgo/classfile"
+import (
+	"jvmgo/classfile/reader"
+)
 
 // 所有常量数据类型的父类
 type ConstantInfo interface {
-	readInfo(reader *classfile.ClassReader)
+	readInfo(reader *reader.ClassReader)
 }
 

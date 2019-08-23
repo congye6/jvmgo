@@ -1,6 +1,8 @@
 package constant_info
 
-import "jvmgo/classfile"
+import (
+	"jvmgo/classfile/reader"
+)
 
 // 类描述符和名称+描述符可以唯一确定一个字段或方法
 type ConstantMemberDefInfo struct {
@@ -8,7 +10,7 @@ type ConstantMemberDefInfo struct {
 	nameAndTypeIndex uint16
 }
 
-func (this *ConstantMemberDefInfo) readInfo(reader *classfile.ClassReader) {
+func (this *ConstantMemberDefInfo) readInfo(reader *reader.ClassReader) {
 	this.classIndex = reader.ReadUint16()
 	this.nameAndTypeIndex = reader.ReadUint16()
 }
