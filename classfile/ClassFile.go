@@ -2,6 +2,7 @@ package classfile
 
 import (
 	"fmt"
+	"jvmgo/classfile/attribute_info"
 	"jvmgo/classfile/constant_info"
 	"jvmgo/classfile/reader"
 )
@@ -18,7 +19,9 @@ type ClassFile struct {
 	thisClass    uint16 //类名的索引
 	superClass   uint16 //超类索引
 	interfaces   []uint16
-	// TODO
+	fields       []*FieldInfo  //字段
+	methods      []*MethodInfo //方法
+	attributes   []attribute_info.AttributeInfo
 }
 
 func NewClassFile(data []byte) *ClassFile {
@@ -37,6 +40,9 @@ func (this *ClassFile) Init() {
 	this.thisClass = this.classReader.ReadUint16()
 	this.superClass = this.classReader.ReadUint16()
 	this.interfaces = this.classReader.ReadUint16s()
+	this.fields = readFields(this.classReader, this.constantPool)
+	this.methods = readMethods(this.classReader, this.constantPool)
+	this.attributes = attribute_info.ReadAttributes(this.classReader, this.constantPool)
 }
 
 func (this *ClassFile) GetClassName() string {
@@ -45,6 +51,18 @@ func (this *ClassFile) GetClassName() string {
 
 func (this *ClassFile) GetSuperClassName() string {
 	return this.constantPool.GetClassName(this.superClass)
+}
+
+func (this *ClassFile) GetAttributes() []attribute_info.AttributeInfo {
+	return this.attributes
+}
+
+func (this *ClassFile) GetFields() []*FieldInfo {
+	return this.fields
+}
+
+func (this *ClassFile) GetMethods() []*MethodInfo {
+	return this.methods
 }
 
 func (this *ClassFile) readAndCheckMagic() {

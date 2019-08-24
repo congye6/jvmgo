@@ -44,8 +44,27 @@ func startJVM(cmd *Cmd) {
 
 	classFile := classfile.NewClassFile(data)
 	classFile.Init()
-	fmt.Printf("【DEBUG】class name:%s\n", classFile.GetClassName())
-	fmt.Printf("【DEBUG】super class name:%s\n", classFile.GetSuperClassName())
+	debug(classFile)
 }
 
-//./jvmgo -cp /Users/zhoucong/workspace/practice/out/production/practice /Users/zhoucong/workspace/practice/out/production/practice/Solution.class
+func debug(classFile *classfile.ClassFile) {
+	fmt.Printf("【DEBUG】class name:%s\n", classFile.GetClassName())
+	fmt.Printf("【DEBUG】super class name:%s\n", classFile.GetSuperClassName())
+	for _, attribute := range classFile.GetAttributes() {
+		fmt.Printf("【DEBUG】attribute name:%s \n", attribute.GetName())
+	}
+	for _, field := range classFile.GetFields() {
+		fmt.Printf("【DEBUG】field name:%s , descriptor:%s \n", field.MemberInfo.GetName(), field.GetDescriptor())
+		for _, attribute := range field.GetAttributes() {
+			fmt.Printf("【DEBUG】attribute name:%s \n", attribute.GetName())
+		}
+	}
+	for _, method := range classFile.GetMethods() {
+		fmt.Printf("【DEBUG】method name:%s , descriptor:%s \n", method.MemberInfo.GetName(), method.GetDescriptor())
+		for _, attribute := range method.GetAttributes() {
+			fmt.Printf("【DEBUG】attribute name:%s \n", attribute.GetName())
+		}
+	}
+}
+
+//
