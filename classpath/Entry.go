@@ -10,10 +10,10 @@ const PATH_LIST_SPLITER = string(os.PathListSeparator)
 
 // 管理某个路径下的class文件
 type Entry interface {
-	readClass(path string) (clazz []byte, entry Entry, err error)
+	ReadClass(path string) (clazz []byte, entry Entry, err error)
 }
 
-func newEntry(path string) Entry {
+func NewEntry(path string) Entry {
 	fmt.Printf("【DEBUG】new entry path:%s \n", path)
 	if strings.Contains(path, PATH_LIST_SPLITER) {
 		return newCompositeEntry(path)

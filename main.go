@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-	"jvmgo/classfile"
-	"jvmgo/classpath"
+	"jvmgo/method_area"
 	"os"
 )
 
@@ -31,7 +30,7 @@ func main() {
 		cmd.classpath = os.Getenv(CLASS_PATH)
 	}
 	if cmd.jrePath == "" {
-		cmd.jrePath = os.Getenv(JAVA_HOME) + "\\jre"
+		cmd.jrePath = os.Getenv(JAVA_HOME)
 	}
 	startJVM(cmd)
 }
@@ -39,32 +38,29 @@ func main() {
 func startJVM(cmd *Cmd) {
 	fmt.Println("【DEBUG】starting jvm...")
 	fmt.Printf("【DEBUG】main class:%s \n, classpath:%s \n", cmd.mainClass, cmd.classpath)
-	classpathService := classpath.Parse(cmd.jrePath, cmd.classpath) // classpath就是应用类加载器的路径
-	data, _ := classpathService.ReadClass(cmd.mainClass)
-
-	classFile := classfile.NewClassFile(data)
-	classFile.Init()
-	debug(classFile)
+	applicationLoader := method_area.GetApplicationLoader(cmd.jrePath, cmd.classpath) // 应用类加载器
+	class := applicationLoader.LoadClass(cmd.mainClass)
+	debug(class)
 }
 
-func debug(classFile *classfile.ClassFile) {
-	fmt.Printf("【DEBUG】class name:%s\n", classFile.GetClassName())
-	fmt.Printf("【DEBUG】super class name:%s\n", classFile.GetSuperClassName())
-	for _, attribute := range classFile.GetAttributes() {
-		fmt.Printf("【DEBUG】attribute name:%s \n", attribute.GetName())
-	}
-	for _, field := range classFile.GetFields() {
-		fmt.Printf("【DEBUG】field name:%s , descriptor:%s \n", field.MemberInfo.GetName(), field.GetDescriptor())
-		for _, attribute := range field.GetAttributes() {
-			fmt.Printf("【DEBUG】attribute name:%s \n", attribute.GetName())
-		}
-	}
-	for _, method := range classFile.GetMethods() {
-		fmt.Printf("【DEBUG】method name:%s , descriptor:%s \n", method.MemberInfo.GetName(), method.GetDescriptor())
-		for _, attribute := range method.GetAttributes() {
-			fmt.Printf("【DEBUG】attribute name:%s \n", attribute.GetName())
-		}
-	}
+func debug(class *method_area.Class) {
+	fmt.Printf("【DEBUG】class name:%s\n", class.GetName())
+	fmt.Printf("【DEBUG】super class name:%s\n", class.GetSuperClassName())
+	//for _, attribute := range classFile.GetAttributes() {
+	//	fmt.Printf("【DEBUG】attribute name:%s \n", attribute.GetName())
+	//}
+	//for _, field := range classFile.GetFields() {
+	//	fmt.Printf("【DEBUG】field name:%s , descriptor:%s \n", field.MemberInfo.GetName(), field.GetDescriptor())
+	//	for _, attribute := range field.GetAttributes() {
+	//		fmt.Printf("【DEBUG】attribute name:%s \n", attribute.GetName())
+	//	}
+	//}
+	//for _, method := range classFile.GetMethods() {
+	//	fmt.Printf("【DEBUG】method name:%s , descriptor:%s \n", method.MemberInfo.GetName(), method.GetDescriptor())
+	//	for _, attribute := range method.GetAttributes() {
+	//		fmt.Printf("【DEBUG】attribute name:%s \n", attribute.GetName())
+	//	}
+	//}
 }
 
 //

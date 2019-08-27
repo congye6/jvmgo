@@ -45,12 +45,29 @@ func (this *ClassFile) Init() {
 	this.attributes = attribute_info.ReadAttributes(this.classReader, this.constantPool)
 }
 
+func (this *ClassFile) GetAccessFlags() uint16 {
+	return this.accessFlags
+}
+
 func (this *ClassFile) GetClassName() string {
 	return this.constantPool.GetClassName(this.thisClass)
 }
 
 func (this *ClassFile) GetSuperClassName() string {
 	return this.constantPool.GetClassName(this.superClass)
+}
+
+func (this *ClassFile) GetInterfacesName() []string {
+	count := len(this.interfaces)
+	interfaceNames := make([]string, count)
+	for i, interfaceName := range this.interfaces {
+		interfaceNames[i] = this.constantPool.GetUtf8(interfaceName)
+	}
+	return interfaceNames
+}
+
+func (this *ClassFile) GetConstantPool() *constant_info.ConstantPool{
+	return this.constantPool
 }
 
 func (this *ClassFile) GetAttributes() []attribute_info.AttributeInfo {
@@ -81,5 +98,4 @@ func (this *ClassFile) readAndCheckMagic() {
 func (this *ClassFile) readAndCheckVersion() {
 	this.minorVersion = this.classReader.ReadUint16()
 	this.majorVersion = this.classReader.ReadUint16()
-	fmt.Printf("reading version, minor:%d, major:%d \n", this.minorVersion, this.majorVersion)
 }

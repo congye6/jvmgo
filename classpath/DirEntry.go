@@ -11,7 +11,7 @@ type DirEntry struct {
 	absPath string
 }
 
-func (this DirEntry) readClass(path string) (clazz []byte,entry Entry,err error) {
+func (this DirEntry) ReadClass(path string) (clazz []byte,entry Entry,err error) {
 	if  !strings.Contains(path,this.absPath){
 		println(this.absPath+" "+path)
 		return nil, nil, nil
