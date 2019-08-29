@@ -7,13 +7,13 @@ import (
 
 // 类信息
 type Class struct {
-	accessFlags    uint16
-	name           string //字节码是存的索引
-	superClassName string
-	interfaceNames []string
-	constantPool   *constant_info.ConstantPool
-	//fields []*Field
-	//methods []*Method
+	accessFlags        uint16
+	name               string //字节码是存的索引,方法区存什么没有具体定义
+	superClassName     string
+	interfaceNames     []string
+	constantPool       *constant_info.ConstantPool
+	fields             []*Field
+	methods            []*Method
 	loader             *ClassLoader
 	superClass         *Class
 	interfaces         []*Class
@@ -23,17 +23,20 @@ type Class struct {
 }
 
 func newClass(classfileVO *classfile.ClassFile) *Class {
-	return &Class{
+	class := &Class{
 		accessFlags:        classfileVO.GetAccessFlags(),
 		name:               classfileVO.GetClassName(),
 		superClassName:     classfileVO.GetSuperClassName(),
 		interfaceNames:     classfileVO.GetInterfacesName(),
-		constantPool:      	classfileVO.GetConstantPool(),
+		constantPool:       classfileVO.GetConstantPool(),
 		superClass:         nil,
 		interfaces:         nil,
 		instancesSlotCount: 0,
 		staticSlotCount:    0,
 	}
+	newFields(class, classfileVO.GetFields())
+	newMethods(class, classfileVO.GetMethods())
+	return class
 }
 
 func (this *Class) GetName() string {
@@ -43,4 +46,3 @@ func (this *Class) GetName() string {
 func (this *Class) GetSuperClassName() string {
 	return this.superClassName
 }
-
