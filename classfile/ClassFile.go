@@ -54,6 +54,9 @@ func (this *ClassFile) GetClassName() string {
 }
 
 func (this *ClassFile) GetSuperClassName() string {
+	if this.GetClassName() == "java/lang/Object"{
+		return ""
+	}
 	return this.constantPool.GetClassName(this.superClass)
 }
 
