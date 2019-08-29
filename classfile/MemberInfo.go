@@ -34,6 +34,10 @@ func (this *MemberInfo) GetAttributes() []attribute_info.AttributeInfo {
 	return this.attributes
 }
 
+func (this *MemberInfo) GetAccessFlag() uint16 {
+	return this.accessFlags
+}
+
 func readFields(reader *reader.ClassReader, pool *constant_info.ConstantPool) []*FieldInfo {
 	fieldCount := reader.ReadUint16()
 	fields := make([]*FieldInfo, fieldCount)
@@ -60,4 +64,13 @@ func readMember(reader *reader.ClassReader, pool *constant_info.ConstantPool) *M
 		descriptorIndex: reader.ReadUint16(),
 		attributes:      attribute_info.ReadAttributes(reader, pool),
 	}
+}
+
+func (this *MethodInfo) GetCodeAttribute() *attribute_info.CodeAttribute {
+	for _, attribute := range this.attributes {
+		if attribute.GetName() == "Code" {
+			return attribute.(*attribute_info.CodeAttribute)
+		}
+	}
+	return nil
 }

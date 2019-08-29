@@ -15,12 +15,24 @@ type CodeAttribute struct {
 }
 
 func (this *CodeAttribute) readInfo(reader *reader.ClassReader) {
-	this.maxLocals = reader.ReadUint16()
+	this.maxStack = reader.ReadUint16()
 	this.maxLocals = reader.ReadUint16()
 	codeLength := reader.ReadUint32()
 	this.code = reader.ReadBytes(codeLength)
 	this.exceptionTable = readExceptionTable(reader)
 	this.attributes = ReadAttributes(reader, this.constantPool)
+}
+
+func (this *CodeAttribute) GetMaxStack() uint16 {
+	return this.maxStack
+}
+
+func (this *CodeAttribute) GetMaxLocals() uint16 {
+	return this.maxLocals
+}
+
+func (this *CodeAttribute) GetCode() []byte {
+	return this.code
 }
 
 func (this *CodeAttribute) GetName() string {

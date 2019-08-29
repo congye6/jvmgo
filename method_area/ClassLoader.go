@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"jvmgo/classfile"
 	"jvmgo/classpath"
+	"strings"
 )
 
 const OBJECT_CLASS_NAME = "java/lang/Object"
@@ -56,6 +57,9 @@ func (this *ClassLoader) loadClass(name string) *Class {
 }
 
 func (this *ClassLoader) readClass(name string) ([]byte, classpath.Entry) {
+	if !strings.Contains(name,".class"){
+		name=name+".class"
+	}
 	data, entry, err := this.basePath.ReadClass(name)
 	if err != nil {
 		fmt.Printf("[ERROR] java.lang.ClassNotFoundException:%s", name)
