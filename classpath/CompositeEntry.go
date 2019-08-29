@@ -4,9 +4,9 @@ import "strings"
 
 type CompositeEntry []Entry
 
-func (this CompositeEntry) readClass(path string) (clazz []byte,entry Entry,err error){
+func (this CompositeEntry) ReadClass(path string) (clazz []byte,entry Entry,err error){
 	for _,entry= range this{
-		if clazz,entry,err=entry.readClass(path);clazz!=nil{
+		if clazz,entry,err=entry.ReadClass(path);clazz!=nil{
 			return clazz,entry,err
 		}
 	}
@@ -17,7 +17,7 @@ func (this CompositeEntry) readClass(path string) (clazz []byte,entry Entry,err 
 func newCompositeEntry(path string) CompositeEntry{
 	compositeEntry:=[]Entry{}
 	for _,subPath := range strings.Split(path, PATH_LIST_SPLITER){
-		compositeEntry=append(compositeEntry, newEntry(subPath))
+		compositeEntry=append(compositeEntry, NewEntry(subPath))
 	}
 	return compositeEntry
 }

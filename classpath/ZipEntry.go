@@ -14,7 +14,7 @@ type ZipEntry struct {
 	absPath string
 }
 
-func (this ZipEntry) readClass(path string) (clazz []byte,entry Entry,err error){
+func (this ZipEntry) ReadClass(path string) (clazz []byte,entry Entry,err error){
 	reader,err:=zip.OpenReader(this.absPath)
 	if err!=nil{
 		return nil,nil,err
