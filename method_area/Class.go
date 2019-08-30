@@ -23,7 +23,7 @@ type Class struct {
 }
 
 func newClass(classfileVO *classfile.ClassFile) *Class {
-	return &Class{
+	class := &Class{
 		accessFlags:        classfileVO.GetAccessFlags(),
 		name:               classfileVO.GetClassName(),
 		superClassName:     classfileVO.GetSuperClassName(),
@@ -34,6 +34,9 @@ func newClass(classfileVO *classfile.ClassFile) *Class {
 		instancesSlotCount: 0,
 		staticSlotCount:    0,
 	}
+	newFields(class, classfileVO.GetFields())
+	newMethods(class, classfileVO.GetMethods())
+	return class
 }
 
 func (this *Class) GetName() string {
