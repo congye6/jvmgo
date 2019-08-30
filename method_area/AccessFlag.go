@@ -24,3 +24,11 @@ const (
 func isPublicFlag(accessFlag uint16) bool {
 	return accessFlag&PUBLIC != 0
 }
+
+func isStaticFlag(accessFlag uint16) bool {
+	return accessFlag&STATIC != 0
+}
+
+func isFinalFlag(accessFlag uint16) bool {
+	return accessFlag&FINAL != 0
+}

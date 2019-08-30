@@ -52,7 +52,7 @@ func (this *ClassLoader) loadClass(name string) *Class {
 	}
 	class := this.defineClass(data)
 	fmt.Printf("[DEBUG] load class success,loader:%s,class name:%s \n", this.name, name)
-	//link(class)
+	prepare(class)
 	return class
 }
 

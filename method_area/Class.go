@@ -19,7 +19,7 @@ type Class struct {
 	interfaces         []*Class
 	instancesSlotCount uint
 	staticSlotCount    uint
-	//staticVars *Slot
+	staticVars         Slots //类静态变量
 }
 
 func newClass(classfileVO *classfile.ClassFile) *Class {

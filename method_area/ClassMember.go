@@ -15,20 +15,7 @@ func (this *ClassMember) initClassMember(memberInfo *classfile.MemberInfo) {
 	this.descriptor = memberInfo.GetDescriptor()
 }
 
-type Field struct {
-	ClassMember
-}
 
-func newFields(class *Class, fieldInfos []*classfile.FieldInfo) []*Field {
-	count := len(fieldInfos)
-	fields := make([]*Field, count)
-	for i, fieldInfo := range fieldInfos {
-		fields[i] = &Field{}
-		fields[i].class = class
-		fields[i].initClassMember(&fieldInfo.MemberInfo)
-	}
-	return fields
-}
 
 type Method struct {
 	ClassMember
