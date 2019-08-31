@@ -48,6 +48,21 @@ func (this *ConstantPool) GetUtf8(index uint16) string {
 	return utf8Info.str
 }
 
+func (this *ConstantPool) GetInteger(index uint16) int32 {
+	intInfo := this.getConstantInfo(index).(*ConstantIntegerInfo)
+	return intInfo.val
+}
+
+func (this *ConstantPool) GetLong(index uint16) int64 {
+	longInfo := this.getConstantInfo(index).(*ConstantLongInfo)
+	return longInfo.val
+}
+
+func (this *ConstantPool) GetDouble(index uint16) float64 {
+	doubleInfo := this.getConstantInfo(index).(*ConstantDoubleInfo)
+	return doubleInfo.val
+}
+
 // 获取名称和描述符
 func (this *ConstantPool) GetNameAndType(index uint16) (string, string) {
 	nameTypeInfo := this.constants[index].(*ConstantNameAndTypeInfo)

@@ -47,6 +47,15 @@ func readFields(reader *reader.ClassReader, pool *constant_info.ConstantPool) []
 	return fields
 }
 
+func (this *FieldInfo) GetConstAttribute() *attribute_info.ConstValueAttribute {
+	for _, attribute := range this.attributes {
+		if attribute.GetName() == attribute_info.ATTR_CONST_VALUE {
+			return attribute.(*attribute_info.ConstValueAttribute)
+		}
+	}
+	return nil
+}
+
 func readMethods(reader *reader.ClassReader, pool *constant_info.ConstantPool) []*MethodInfo {
 	methodCount := reader.ReadUint16()
 	methods := make([]*MethodInfo, methodCount)
@@ -68,7 +77,7 @@ func readMember(reader *reader.ClassReader, pool *constant_info.ConstantPool) *M
 
 func (this *MethodInfo) GetCodeAttribute() *attribute_info.CodeAttribute {
 	for _, attribute := range this.attributes {
-		if attribute.GetName() == "Code" {
+		if attribute.GetName() == attribute_info.ATTR_CODE {
 			return attribute.(*attribute_info.CodeAttribute)
 		}
 	}
