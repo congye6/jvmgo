@@ -1,12 +1,12 @@
 package attribute_info
 
 import (
-	"jvmgo/classfile/constant_info"
 	"jvmgo/classfile/reader"
+	"jvmgo/constant_pool"
 )
 
 type CodeAttribute struct {
-	constantPool   *constant_info.ConstantPool
+	constantPool   *constant_pool.ConstantPool
 	maxStack       uint16 // 最大操作数栈
 	maxLocals      uint16 // 局部变量表大小
 	code           []byte

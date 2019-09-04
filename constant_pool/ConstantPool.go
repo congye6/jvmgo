@@ -1,4 +1,4 @@
-package constant_info
+package constant_pool
 
 import (
 	"jvmgo/classfile/reader"
@@ -22,8 +22,11 @@ func (this *ConstantPool) Init() {
 	constantFactory := ConstantInfoFactory{}
 	for i := 1; i < constantLength; i++ { //从1开始，0为无效值
 		tag := this.reader.ReadUint8()
-		constantInfo := constantFactory.newConstantInfo(tag) // 创建info对象
-		constantInfo.readInfo(this.reader)                   // 解析具体数据
+		constantInfo := constantFactory.newConstantInfo(tag, this) // 创建info对象
+		if constantInfo == nil {
+			continue
+		}
+		constantInfo.readInfo(this.reader) // 解析具体数据
 
 		this.constants[i] = constantInfo // 添加到pool中
 
@@ -36,10 +39,15 @@ func (this *ConstantPool) Init() {
 }
 
 func (this *ConstantPool) getConstantInfo(index uint16) ConstantInfo {
+	//fmt.Printf("[Debug] len:%d,index%d \n",len(this.constants),index)
 	if constantInfo := this.constants[index]; constantInfo != nil {
 		return constantInfo
 	}
 	panic("invalid constant pool index")
+}
+
+func (this *ConstantPool) GetPool() []ConstantInfo {
+	return this.constants
 }
 
 // 读取字符串字面量
@@ -56,6 +64,11 @@ func (this *ConstantPool) GetInteger(index uint16) int32 {
 func (this *ConstantPool) GetLong(index uint16) int64 {
 	longInfo := this.getConstantInfo(index).(*ConstantLongInfo)
 	return longInfo.val
+}
+
+func (this *ConstantPool) GetFloat(index uint16) float32 {
+	floatInfo := this.getConstantInfo(index).(*ConstantFloatInfo)
+	return floatInfo.val
 }
 
 func (this *ConstantPool) GetDouble(index uint16) float64 {

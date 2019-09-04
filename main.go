@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"jvmgo/method_area"
 	"os"
+	"time"
 )
 
 const JAVA_HOME = "JAVA_HOME"
@@ -38,8 +39,11 @@ func main() {
 func startJVM(cmd *Cmd) {
 	fmt.Println("【DEBUG】starting jvm...")
 	fmt.Printf("【DEBUG】main class:%s \n, classpath:%s \n", cmd.mainClass, cmd.classpath)
+	before := time.Now().Unix()
 	applicationLoader := method_area.GetApplicationLoader(cmd.jrePath, cmd.classpath) // 应用类加载器
 	class := applicationLoader.LoadClass(cmd.mainClass)
+	after := time.Now().Unix()
+	fmt.Printf("[DEBUG] load class time:%d \n", after-before)
 	debug(class)
 }
 

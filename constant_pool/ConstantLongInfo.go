@@ -1,4 +1,4 @@
-package constant_info
+package constant_pool
 
 import (
 	"jvmgo/classfile/reader"

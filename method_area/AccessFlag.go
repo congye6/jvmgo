@@ -32,3 +32,7 @@ func isStaticFlag(accessFlag uint16) bool {
 func isFinalFlag(accessFlag uint16) bool {
 	return accessFlag&FINAL != 0
 }
+
+func isPrivate(accessFlag uint16) bool {
+	return accessFlag&PRIVATE != 0
+}

@@ -1,8 +1,8 @@
 package attribute_info
 
 import (
-	"jvmgo/classfile/constant_info"
 	"jvmgo/classfile/reader"
+	"jvmgo/constant_pool"
 )
 
 const (
@@ -17,7 +17,7 @@ type AttributeInfo interface {
 	GetName() string
 }
 
-func ReadAttributes(reader *reader.ClassReader, pool *constant_info.ConstantPool) []AttributeInfo {
+func ReadAttributes(reader *reader.ClassReader, pool *constant_pool.ConstantPool) []AttributeInfo {
 	attributeCount := reader.ReadUint16()
 	attributes := make([]AttributeInfo, attributeCount)
 	for i := range attributes {
@@ -26,7 +26,7 @@ func ReadAttributes(reader *reader.ClassReader, pool *constant_info.ConstantPool
 	return attributes
 }
 
-func readAttribute(classReader *reader.ClassReader, pool *constant_info.ConstantPool) AttributeInfo {
+func readAttribute(classReader *reader.ClassReader, pool *constant_pool.ConstantPool) AttributeInfo {
 	nameIndex := classReader.ReadUint16()
 	name := pool.GetUtf8(nameIndex)
 	length := classReader.ReadUint32()
@@ -35,7 +35,7 @@ func readAttribute(classReader *reader.ClassReader, pool *constant_info.Constant
 	return attribute
 }
 
-func newAttributeInfo(name string, length uint32, pool *constant_info.ConstantPool) AttributeInfo {
+func newAttributeInfo(name string, length uint32, pool *constant_pool.ConstantPool) AttributeInfo {
 	if name == ATTR_CODE {
 		return &CodeAttribute{constantPool: pool}
 	}

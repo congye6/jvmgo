@@ -1,4 +1,4 @@
-package constant_info
+package method_area
 
 import (
 	"jvmgo/classfile/reader"

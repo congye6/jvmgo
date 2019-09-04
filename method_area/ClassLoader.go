@@ -29,6 +29,19 @@ func NewClassLoader(basePath classpath.Entry, parentLoader *ClassLoader, name st
 
 // 加载类，父加载器->classMap->加载类
 func (this *ClassLoader) LoadClass(name string) *Class {
+	//blacklist := []string{
+	//	"java/lang/reflect/AnnotatedElement", "java/lang/CharSequence", "java/util/Arrays","java/util/Comparator",
+	//}
+	if name[0] == '[' {
+		return nil
+	}
+
+	//for _, black := range blacklist {
+	//	if black == name {
+	//		return nil
+	//	}
+	//}
+
 	if this.parentLoader != nil { //先交给父加载器加载
 		class := this.parentLoader.LoadClass(name)
 		if class != nil {
@@ -45,20 +58,21 @@ func (this *ClassLoader) LoadClass(name string) *Class {
 
 // 加载类，暂不考虑数组
 func (this *ClassLoader) loadClass(name string) *Class {
-	fmt.Printf("[DEBUG] loading class,loader:%s,class name:%s \n", this.name, name)
+	//fmt.Printf("[DEBUG] loading class,loader:%s,class name:%s \n", this.name, name)
 	data, _ := this.readClass(name)
 	if data == nil { //找不到类
 		return nil
 	}
 	class := this.defineClass(data)
-	fmt.Printf("[DEBUG] load class success,loader:%s,class name:%s \n", this.name, name)
+	//fmt.Printf("[DEBUG] load class success,loader:%s,class name:%s \n", this.name, name)
 	prepare(class)
+	link(class)
 	return class
 }
 
 func (this *ClassLoader) readClass(name string) ([]byte, classpath.Entry) {
-	if !strings.Contains(name,".class"){
-		name=name+".class"
+	if !strings.Contains(name, ".class") {
+		name = name + ".class"
 	}
 	data, entry, err := this.basePath.ReadClass(name)
 	if err != nil {
