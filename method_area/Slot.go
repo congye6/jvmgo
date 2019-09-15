@@ -1,13 +1,12 @@
 package method_area
 
 import (
-	"jvmgo/heap"
 	"math"
 )
 
 type Slot struct {
 	num int32
-	ref *heap.Object
+	ref *Object
 }
 
 type Slots []Slot
@@ -57,10 +56,10 @@ func (this Slots) GetDouble(index uint) float64 {
 	return math.Float64frombits(bits)
 }
 
-func (this Slots) SetRef(index uint, ref *heap.Object) {
+func (this Slots) SetRef(index uint, ref *Object) {
 	this[index].ref = ref
 }
 
-func (this Slots) GetRef(index uint) *heap.Object {
+func (this Slots) GetRef(index uint) *Object {
 	return this[index].ref
 }

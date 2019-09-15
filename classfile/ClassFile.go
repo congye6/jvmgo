@@ -3,8 +3,8 @@ package classfile
 import (
 	"fmt"
 	"jvmgo/classfile/attribute_info"
-	"jvmgo/classfile/constant_info"
 	"jvmgo/classfile/reader"
+	"jvmgo/constant_pool"
 )
 
 // class文件属性
@@ -14,7 +14,7 @@ type ClassFile struct {
 	// magic uint32
 	minorVersion uint16 //版本号
 	majorVersion uint16
-	constantPool *constant_info.ConstantPool
+	constantPool *constant_pool.ConstantPool
 	accessFlags  uint16 //访问标志
 	thisClass    uint16 //类名的索引
 	superClass   uint16 //超类索引
@@ -34,15 +34,20 @@ func NewClassFile(data []byte) *ClassFile {
 func (this *ClassFile) Init() {
 	this.readAndCheckMagic()
 	this.readAndCheckVersion()
-	this.constantPool = constant_info.NewConstantPool(this.classReader)
+	this.constantPool = constant_pool.NewConstantPool(this.classReader)
 	this.constantPool.Init()
 	this.accessFlags = this.classReader.ReadUint16()
 	this.thisClass = this.classReader.ReadUint16()
+	//fmt.Printf("[DEBUG] class index:%d \n",this.thisClass)
 	this.superClass = this.classReader.ReadUint16()
 	this.interfaces = this.classReader.ReadUint16s()
 	this.fields = readFields(this.classReader, this.constantPool)
 	this.methods = readMethods(this.classReader, this.constantPool)
 	this.attributes = attribute_info.ReadAttributes(this.classReader, this.constantPool)
+}
+
+func (this *ClassFile) GetConstantPool() *constant_pool.ConstantPool {
+	return this.constantPool
 }
 
 func (this *ClassFile) GetAccessFlags() uint16 {
@@ -54,7 +59,7 @@ func (this *ClassFile) GetClassName() string {
 }
 
 func (this *ClassFile) GetSuperClassName() string {
-	if this.GetClassName() == "java/lang/Object"{
+	if this.GetClassName() == "java/lang/Object" {
 		return ""
 	}
 	return this.constantPool.GetClassName(this.superClass)
@@ -64,13 +69,9 @@ func (this *ClassFile) GetInterfacesName() []string {
 	count := len(this.interfaces)
 	interfaceNames := make([]string, count)
 	for i, interfaceName := range this.interfaces {
-		interfaceNames[i] = this.constantPool.GetUtf8(interfaceName)
+		interfaceNames[i] = this.constantPool.GetClassName(interfaceName)
 	}
 	return interfaceNames
-}
-
-func (this *ClassFile) GetConstantPool() *constant_info.ConstantPool{
-	return this.constantPool
 }
 
 func (this *ClassFile) GetAttributes() []attribute_info.AttributeInfo {

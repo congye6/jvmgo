@@ -1,4 +1,4 @@
-package constant_info
+package constant_pool
 
 import (
 	"jvmgo/classfile/reader"
@@ -7,6 +7,7 @@ import (
 // 字段或方法的描述符
 // 方法名称相同，可以根据描述符来区别不同方法
 type ConstantNameAndTypeInfo struct {
+	constantPool    *ConstantPool
 	nameIndex       uint16 // 字段名称或方法名称
 	descriptorIndex uint16 // 描述符
 }

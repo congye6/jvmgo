@@ -3,10 +3,8 @@ package classpath
 import (
 	"archive/zip"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"path/filepath"
-	"strings"
 )
 
 /**
@@ -23,9 +21,6 @@ func (this ZipEntry) ReadClass(path string) (clazz []byte,entry Entry,err error)
 	}
 	defer reader.Close()
 	for _,file := range reader.File{//遍历zip中的文件，查找相同文件名的文件
-		if strings.Contains(file.Name,"java/lang/Object"){
-			fmt.Printf("[DEBUG] file name:%s entry:%s \n",file.Name,this)
-		}
 		if file.Name!=path{
 			continue
 		}

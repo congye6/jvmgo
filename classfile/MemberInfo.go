@@ -2,12 +2,12 @@ package classfile
 
 import (
 	"jvmgo/classfile/attribute_info"
-	"jvmgo/classfile/constant_info"
 	"jvmgo/classfile/reader"
+	"jvmgo/constant_pool"
 )
 
 type MemberInfo struct {
-	constantPool    *constant_info.ConstantPool
+	constantPool    *constant_pool.ConstantPool
 	accessFlags     uint16
 	nameIndex       uint16
 	descriptorIndex uint16
@@ -38,7 +38,7 @@ func (this *MemberInfo) GetAccessFlag() uint16 {
 	return this.accessFlags
 }
 
-func readFields(reader *reader.ClassReader, pool *constant_info.ConstantPool) []*FieldInfo {
+func readFields(reader *reader.ClassReader, pool *constant_pool.ConstantPool) []*FieldInfo {
 	fieldCount := reader.ReadUint16()
 	fields := make([]*FieldInfo, fieldCount)
 	for i := range fields {
@@ -56,7 +56,7 @@ func (this *FieldInfo) GetConstAttribute() *attribute_info.ConstValueAttribute {
 	return nil
 }
 
-func readMethods(reader *reader.ClassReader, pool *constant_info.ConstantPool) []*MethodInfo {
+func readMethods(reader *reader.ClassReader, pool *constant_pool.ConstantPool) []*MethodInfo {
 	methodCount := reader.ReadUint16()
 	methods := make([]*MethodInfo, methodCount)
 	for i := range methods {
@@ -65,7 +65,7 @@ func readMethods(reader *reader.ClassReader, pool *constant_info.ConstantPool) [
 	return methods
 }
 
-func readMember(reader *reader.ClassReader, pool *constant_info.ConstantPool) *MemberInfo {
+func readMember(reader *reader.ClassReader, pool *constant_pool.ConstantPool) *MemberInfo {
 	return &MemberInfo{
 		constantPool:    pool,
 		accessFlags:     reader.ReadUint16(),

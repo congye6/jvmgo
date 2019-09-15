@@ -1,13 +1,13 @@
 package attribute_info
 
 import (
-	"jvmgo/classfile/constant_info"
 	"jvmgo/classfile/reader"
+	"jvmgo/constant_pool"
 )
 
 // 源文件名称
 type SourceFileAttribute struct {
-	constantPool    *constant_info.ConstantPool
+	constantPool    *constant_pool.ConstantPool
 	sourceFileIndex uint16 //源文件名称索引
 }
 

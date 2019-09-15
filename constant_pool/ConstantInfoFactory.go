@@ -1,4 +1,4 @@
-package constant_info
+package constant_pool
 
 // 不同常量类型的tag
 const (
@@ -22,13 +22,13 @@ const (
 type ConstantInfoFactory struct {
 }
 
-func (this *ConstantInfoFactory) newConstantInfo(tag uint8) ConstantInfo {
+func (this *ConstantInfoFactory) newConstantInfo(tag uint8, pool *ConstantPool) ConstantInfo {
 	if tag == INFO_INTEGER {
 		return &ConstantIntegerInfo{}
 	}
 
 	if tag == INFO_CLASS {
-		return &ConstantClassInfo{}
+		return &ConstantClassInfo{constantPool: pool}
 	}
 
 	if tag == INFO_DOUBLE {
@@ -36,7 +36,7 @@ func (this *ConstantInfoFactory) newConstantInfo(tag uint8) ConstantInfo {
 	}
 
 	if tag == INFO_FIELD_DEF {
-		return &ConstantFieldDefInfo{}
+		return &ConstantFieldDefInfo{ConstantMemberDefInfo{constantPool: pool}}
 	}
 
 	if tag == INFO_FLOAT {
@@ -44,7 +44,7 @@ func (this *ConstantInfoFactory) newConstantInfo(tag uint8) ConstantInfo {
 	}
 
 	if tag == INFO_INTERFACE_METHOD_DEF {
-		return &ConstantInterfaceMethodDefInfo{}
+		return &ConstantInterfaceMethodDefInfo{ConstantMemberDefInfo{constantPool: pool}}
 	}
 
 	if tag == INFO_LONG {
@@ -52,11 +52,11 @@ func (this *ConstantInfoFactory) newConstantInfo(tag uint8) ConstantInfo {
 	}
 
 	if tag == INFO_METHOD_DEF {
-		return &ConstantMethodDefInfo{}
+		return &ConstantMethodDefInfo{ConstantMemberDefInfo{constantPool: pool}}
 	}
 
 	if tag == INFO_NAME_AND_TYPE {
-		return &ConstantNameAndTypeInfo{}
+		return &ConstantNameAndTypeInfo{constantPool: pool}
 	}
 
 	if tag == INFO_STRING {
@@ -66,5 +66,5 @@ func (this *ConstantInfoFactory) newConstantInfo(tag uint8) ConstantInfo {
 	if tag == INFO_UTF8 {
 		return &ConstantUtf8Info{}
 	}
-	panic("error tag")
+	return nil
 }
