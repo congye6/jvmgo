@@ -43,7 +43,7 @@ func startJVM(cmd *Cmd) {
 	applicationLoader := method_area.GetApplicationLoader(cmd.jrePath, cmd.classpath) // 应用类加载器
 	class := applicationLoader.LoadClass(cmd.mainClass)
 	after := time.Now().Unix()
-	fmt.Printf("[DEBUG] load class time:%d \n", after-before)
+	fmt.Printf("[DEBUG] loads class time:%d \n", after-before)
 	debug(class)
 }
 

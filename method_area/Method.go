@@ -31,3 +31,11 @@ func newMethods(class *Class, methodInfos []*classfile.MethodInfo) []*Method {
 func (this *Method) isStaticLink() bool {
 	return isFinalFlag(this.accessFlag) || isStaticFlag(this.accessFlag) || isPrivate(this.accessFlag)
 }
+
+func (this *Method) GetMaxLocals() uint16 {
+	return this.maxLocals
+}
+
+func (this *Method) GetMaxStack() uint16 {
+	return this.maxStack
+}

@@ -64,7 +64,7 @@ func (this *ClassLoader) loadClass(name string) *Class {
 		return nil
 	}
 	class := this.defineClass(data)
-	//fmt.Printf("[DEBUG] load class success,loader:%s,class name:%s \n", this.name, name)
+	//fmt.Printf("[DEBUG] loads class success,loader:%s,class name:%s \n", this.name, name)
 	prepare(class)
 	link(class)
 	return class

@@ -2,6 +2,7 @@ package method_area
 
 import (
 	"jvmgo/classfile"
+	"jvmgo/slot"
 )
 
 // 类信息
@@ -18,7 +19,7 @@ type Class struct {
 	interfaces         []*Class
 	instancesSlotCount uint
 	staticSlotCount    uint
-	staticVars         Slots //类静态变量
+	staticVars         slot.Slots //类静态变量
 }
 
 func newClass(classfileVO *classfile.ClassFile) *Class {
