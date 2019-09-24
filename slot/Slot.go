@@ -1,21 +1,22 @@
-package method_area
+package slot
 
 import (
+	"jvmgo/method_area"
 	"math"
 )
 
 type Slot struct {
 	num int32
-	ref *Object
+	ref *method_area.Object
 }
 
-type Slots []Slot
+type Slots []*Slot
 
-func newSlots(slotCount uint) Slots {
+func NewSlots(slotCount uint) Slots {
 	if slotCount <= 0 {
 		return nil
 	}
-	return make([]Slot, slotCount)
+	return make([]*Slot, slotCount)
 }
 
 func (this Slots) SetInt(index uint, val int32) {
@@ -56,10 +57,18 @@ func (this Slots) GetDouble(index uint) float64 {
 	return math.Float64frombits(bits)
 }
 
-func (this Slots) SetRef(index uint, ref *Object) {
+func (this Slots) SetRef(index uint, ref *method_area.Object) {
 	this[index].ref = ref
 }
 
-func (this Slots) GetRef(index uint) *Object {
+func (this Slots) GetRef(index uint) *method_area.Object {
 	return this[index].ref
+}
+
+func (this Slots) SetSlot(index uint, slotVal *Slot) {
+	this[index] = slotVal
+}
+
+func (this Slots) GetSlot(index uint) *Slot{
+	return this[index]
 }

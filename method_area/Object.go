@@ -1,7 +1,9 @@
 package method_area
 
+import "jvmgo/slot"
+
 type Object struct {
 	// todo
 	class  *Class
-	fields []Slots //实例变量
+	fields []slot.Slots //实例变量
 }
