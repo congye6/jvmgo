@@ -1,5 +1,7 @@
 package method_area
 
+import "jvmgo/slot"
+
 func prepare(class *Class) {
 	calcInsatnceFieldId(class)
 	calcStaticFieldId(class)
@@ -47,7 +49,7 @@ func calcStaticFieldId(class *Class) {
 }
 
 func initStaticVars(class *Class) {
-	class.staticVars = newSlots(class.staticSlotCount) // 因为go语言本身就会给slot分配默认值，所以默认值不需要再分配
+	class.staticVars = slot.NewSlots(class.staticSlotCount) // 因为go语言本身就会给slot分配默认值，所以默认值不需要再分配
 	for _, field := range class.fields {
 		if field.isStatic() && field.isFinal() { // static final的变量会有初始值，分配在const value常量中
 			initStaticFinalVars(class, field)

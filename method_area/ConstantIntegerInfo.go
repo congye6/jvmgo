@@ -4,3 +4,7 @@ package method_area
 type ConstantIntegerInfo struct {
 	val int32
 }
+
+func (this *ConstantIntegerInfo) GetVal() int32 {
+	return this.val
+}

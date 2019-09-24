@@ -55,7 +55,7 @@ func (this *ConstantPool) GetConstantValues() *constant_pool.ConstantPool {
 	return this.constantValues
 }
 
-func (this *ConstantPool) getConstantInfo(index uint16) ConstantInfo {
+func (this *ConstantPool) GetConstantInfo(index uint16) ConstantInfo {
 	if constantInfo := this.constants[index]; constantInfo != nil {
 		return constantInfo
 	}
@@ -64,23 +64,28 @@ func (this *ConstantPool) getConstantInfo(index uint16) ConstantInfo {
 
 // 读取字符串字面量
 func (this *ConstantPool) GetUtf8(index uint16) string {
-	utf8Info := this.getConstantInfo(index).(*ConstantUtf8Info)
+	utf8Info := this.GetConstantInfo(index).(*ConstantUtf8Info)
 	return utf8Info.str
 }
 
 func (this *ConstantPool) GetInteger(index uint16) int32 {
-	intInfo := this.getConstantInfo(index).(*ConstantIntegerInfo)
+	intInfo := this.GetConstantInfo(index).(*ConstantIntegerInfo)
 	return intInfo.val
 }
 
 func (this *ConstantPool) GetLong(index uint16) int64 {
-	longInfo := this.getConstantInfo(index).(*ConstantLongInfo)
+	longInfo := this.GetConstantInfo(index).(*ConstantLongInfo)
 	return longInfo.val
 }
 
 func (this *ConstantPool) GetDouble(index uint16) float64 {
-	doubleInfo := this.getConstantInfo(index).(*ConstantDoubleInfo)
+	doubleInfo := this.GetConstantInfo(index).(*ConstantDoubleInfo)
 	return doubleInfo.val
+}
+
+func (this *ConstantPool) GetClass(index uint16) *Class {
+	classInfo := this.GetConstantInfo(index).(*ConstantClassInfo)
+	return classInfo.linkedClass
 }
 
 // 获取名称和描述符

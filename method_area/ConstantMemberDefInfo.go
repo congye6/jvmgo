@@ -14,7 +14,11 @@ type ConstantMemberDefInfo struct {
 
 func (this *ConstantMemberDefInfo) copyInfo(constValue *constant_pool.ConstantMemberDefInfo) {
 	this.classIndex = constValue.GetClassIndex()
-	//this.classInfo = this.constantPool.getConstantInfo(constValue.GetClassIndex()).(*ConstantClassInfo)
+	//this.classInfo = this.constantPool.GetConstantInfo(constValue.GetClassIndex()).(*ConstantClassInfo)
 	this.name, this.desciptor = constValue.GetNameAndType()
 
+}
+
+func (this *ConstantMemberDefInfo) GetDescriptor() string {
+	return this.desciptor
 }
