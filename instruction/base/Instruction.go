@@ -28,6 +28,7 @@ type Index8 struct {
 	Index uint
 }
 
+
 func (this *Index8) FetchOperands(reader *interpreter.BytecodeReader) {
 	this.Index = uint(reader.ReadUint8())
 }
@@ -46,12 +47,14 @@ func (this *NoOperand) FetchOperands(reader *interpreter.BytecodeReader) {
 
 func (this *NoOperand) Execute(frame *stack.Frame) {
 
+
 }
 
 // 跳转指令
 type Branch struct {
 	Offset uint
 }
+
 
 func (this *Branch) FetchOperands(reader *interpreter.BytecodeReader) {
 	this.Offset = uint(reader.ReadUint16())

@@ -45,3 +45,4 @@ func (this *Frame) CurrentThread() *Thread {
 func (this *Frame) GetConstantPool() *method_area.ConstantPool {
 	return this.method.GetClass().GetConstantPool()
 }
+
