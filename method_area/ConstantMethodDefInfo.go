@@ -11,7 +11,7 @@ type ConstantMethodDefInfo struct {
 
 // 先根据静态类型（即引用类型）查找，如果可以静态链接就赋值，否则不赋值，等待运行时动态链接
 func (this *ConstantMethodDefInfo) staticLink(originClass *Class) *Method {
-	classInfo := this.constantPool.getConstantInfo(this.classIndex).(*ConstantClassInfo)
+	classInfo := this.constantPool.GetConstantInfo(this.classIndex).(*ConstantClassInfo)
 	findClass := classInfo.link(originClass)
 	if findClass == nil {
 		fmt.Printf("[WARNING] method class:%s not found \n", classInfo.name)

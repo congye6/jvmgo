@@ -34,6 +34,15 @@ func (this *Frame) GetLocalVars() slot.Slots {
 	return this.localVars
 }
 
-func (this *Frame) CurrentThread() *Thread{
+func (this *Frame) GetMethod() *method_area.Method {
+	return this.method
+}
+
+func (this *Frame) CurrentThread() *Thread {
 	return this.thread
 }
+
+func (this *Frame) GetConstantPool() *method_area.ConstantPool {
+	return this.method.GetClass().GetConstantPool()
+}
+

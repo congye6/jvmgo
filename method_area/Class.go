@@ -40,12 +40,27 @@ func newClass(classfileVO *classfile.ClassFile) *Class {
 	return class
 }
 
+func (this *Class) NewObject() *Object {
+	return &Object{
+		class:  this,
+		fields: slot.NewSlots(this.instancesSlotCount),
+	}
+}
+
+func (this *Class) GetConstantPool() *ConstantPool {
+	return this.constantPool
+}
+
 func (this *Class) GetName() string {
 	return this.name
 }
 
 func (this *Class) GetSuperClassName() string {
 	return this.superClassName
+}
+
+func (this *Class) GetStaticVars() slot.Slots {
+	return this.staticVars
 }
 
 func (this *Class) searchField(name string) *Field {

@@ -14,3 +14,7 @@ func (this *ClassMember) initClassMember(memberInfo *classfile.MemberInfo) {
 	this.accessFlag = memberInfo.GetAccessFlag()
 	this.descriptor = memberInfo.GetDescriptor()
 }
+
+func (this *ClassMember) GetClass() *Class {
+	return this.class
+}
